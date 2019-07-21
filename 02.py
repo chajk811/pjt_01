@@ -4,7 +4,10 @@ from pprint import pprint
 from decouple import config
 from datetime import datetime, timedelta
 
+# 제일 마지막에 csv 파일 생성에 사용될 빈 딕셔너리 생성
 movies = {}
+
+# boxoffice.csv에서 'movieCd'을 읽어와 키값으로 direcors에 추가
 with open('boxoffice.csv', newline='', encoding='utf-8') as f:
     reader = csv.DictReader(f)
 
@@ -12,6 +15,7 @@ with open('boxoffice.csv', newline='', encoding='utf-8') as f:
     for row in reader:
         movies[row['movieCd']] = {}
 
+# 영화코드을 바꿔가면서 url 생성 후 요청
 for movieCd in movies:
     key = config('KEY')
     base_url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?'
@@ -43,6 +47,7 @@ for movieCd in movies:
             '감독명': director,
             }
 
+# 생성된 directors로 csv파일 생성
 with open('movie.csv', 'w', newline='', encoding='utf-8') as f:
     fieldnames = ('영화코드', '영화명(국문)', '영화명(영문)', '관람등급', '개봉연도', '상영시간', '장르', '감독명')
     writer = csv.DictWriter(f, fieldnames=fieldnames)

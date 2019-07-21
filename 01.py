@@ -4,9 +4,10 @@ from pprint import pprint
 from decouple import config
 from datetime import datetime, timedelta
 
+# 제일 마지막에 csv 파일 생성에 사용될 빈 딕셔너리 생성
 result = {} 
 
-# url의 targetDt를 변경하며 50회 반복
+# url의 targetDt를 변경하며 50회 반복하며 url요청
 for i in range(50):
     key = config('KEY')
     targetDt = datetime(2019, 7, 13) - timedelta(weeks=i)
